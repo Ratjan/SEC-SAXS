@@ -10,7 +10,7 @@ def merge_frames(DataFolder, filesuffix, start_frame, end_frame):
     count = 0
 
     for scan in range(start_frame, end_frame):
-        data = np.genfromtxt(f'{DataFolder}/shot_{scan:04d}_{filesuffix}.dat', skip_header=1)
+        data = np.genfromtxt(f'{DataFolder}/shot_{scan:04d}{filesuffix}.dat', skip_header=1)
 
         q = data[:, 0]
         I = data[:, 1]
@@ -47,7 +47,22 @@ def save_data (scan, item_name, start_frame, end_frame, q_values, intensity_valu
     except Exception as e:
         print(f"Error saving file for {item_name} at shots {start_frame:04d} to {end_frame:04d}: {e}")
 
+def save_chromatogram (scan, qmin, qmax, time, intensity_values):
+    # Save the mean intensity and propagated error to a file
 
+
+    # Ensure the directory exists
+    savedir = f'output_chromatogram/{scan}'
+    os.makedirs(savedir, exist_ok=True)
+    try:
+        np.savetxt(
+            f'{savedir}/{scan}_chromatogram_qmin{qmin}_qmax{qmax}.dat',
+            np.column_stack((time, intensity_values)),
+            header="time intensity"
+        )
+        print(f"Data saved for {scan} at {savedir}/{scan}_chromatogram_{qmin}_{qmax}.dat")
+    except Exception as e:
+        print(f"Error saving file for {scan} at {savedir}/{scan}_chromatogram_{qmin}_{qmax}.dat: {e}")
 
 def save_stitched(df_stitched, file_eiger, scan):
     # Save stitched data to .dat file
