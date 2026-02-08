@@ -1,17 +1,14 @@
-# SEC-SAXS - local version, meant to be downloaded and run on computer
-Utilities for manipulating SEC-SAXS data
+# SEC-SAXS - local version
+# This branch is configured to be downloaded and run locally
 
-Make sure these libraries are installed:
-os
-sys
-numpy
-matplotlib
-ipympl
-pandas
+Utilities for manipulating SEC-SAXS data - aims to be more streamlined and flexible for basic analysis and processing of SEC-SAXS.
+Functions:
+- Has a basic stitching function which joins data from two detectors so that the entire q range can be evaluated at the same type
+- Allows for average intensity vs frame (linked to elution time) plots at different q-values, and saving of these plots
+- Solvent subtraction by specifying start and end frames of solvent and sample peak, and saving of these data
+- Separate plot module for comparison of saved data
 
 Intended first time run order is stitch -> main -> plots
+Save folder and file paths are built relative to the path location of the .pynb files are placed.
 
-To run, frames/shots in the format of .dat from CoSAXS should be in a folder labeled scan-xxxxx placed in the Data folder. (The placeholder.txt can be removed)
-E.g. Data/scan-62739/shot_0001.dat
 
-Otherwise, change the data directory as needed.
