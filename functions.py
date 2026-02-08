@@ -33,8 +33,6 @@ def merge_frames(DataFolder, filesuffix, start_frame, end_frame):
 
 def save_data(scan, item_name, start_frame, end_frame, q_values, intensity_values, propagated_err):
     # Save the mean intensity and propagated error to a file
-
-
     # Ensure the directory exists
     os.makedirs(f'SAXS_output', exist_ok=True)
     try:
@@ -49,8 +47,6 @@ def save_data(scan, item_name, start_frame, end_frame, q_values, intensity_value
 
 def save_chromatogram(scan, qmin, qmax, time, intensity_values):
     # Save the mean intensity and propagated error to a file
-
-
     # Ensure the directory exists
     savedir = f'output_chromatogram'
     os.makedirs(savedir, exist_ok=True)
@@ -66,35 +62,28 @@ def save_chromatogram(scan, qmin, qmax, time, intensity_values):
 
 def save_stitched(df_stitched, file_eiger, scan):
     # Save stitched data to .dat file
-
     os.makedirs(f'stitched_output/{scan}_stitched', exist_ok=True)
-
-    #save data from mantid workspace to .dat file
     outfile_name = os.path.basename(file_eiger).split('_eiger')[0]
     df_stitched.to_csv(f'stitched_output/{scan}_stitched/{outfile_name}_stitched.dat', sep='\t', columns=['Q', 'I', 'IError'], index=False, header=True)
     #print(f'Saved: {outfile_name}')
 
 def save_rebin(df_rebinned, file_eiger, scan):
     # Save rebinned data to .dat file
-
     os.makedirs(f'rebinned_output/{scan}_rebinned', exist_ok=True)
-
-    #save data from mantid workspace to .dat file
     outfile_name = os.path.basename(file_eiger).split('_stitched')[0]
     df_rebinned.to_csv(f'rebinned_output/{scan}_rebinned/{outfile_name}_rebinned.dat', sep='\t', columns=['Q', 'I', 'IError'], index=False, header=True)
     #print(f'Saved: {outfile_name}')
-
 
 def stitch_data(EigdataFolder, PildataFolder, file_eiger, file_pilatus):
 
     data_eiger = np.loadtxt(f'{EigdataFolder}/{file_eiger}')
 
-    # Remove rows with zero values in any column
-    data_eiger = data_eiger[~np.any(data_eiger == 0, axis=1)]
+    # Remove rows with zero values in any column -- causes mismatch between frames without rebinning
+    #data_eiger = data_eiger[~np.any(data_eiger == 0, axis=1)]
 
     # Optionally, handle rows with special characters (e.g., NaN or Inf)
-    data_eiger = data_eiger[~np.isnan(data_eiger).any(axis=1)]  # Remove rows with NaN
-    data_eiger = data_eiger[~np.isinf(data_eiger).any(axis=1)]  # Remove rows with Inf
+    #data_eiger = data_eiger[~np.isnan(data_eiger).any(axis=1)]  # Remove rows with NaN
+    #data_eiger = data_eiger[~np.isinf(data_eiger).any(axis=1)]  # Remove rows with Inf
 
     q_values = data_eiger[:, 0]
     intensity_eiger = data_eiger[:, 1]
@@ -111,12 +100,12 @@ def stitch_data(EigdataFolder, PildataFolder, file_eiger, file_pilatus):
 
     data_pilatus = np.loadtxt(f'{PildataFolder}/{file_pilatus}')
 
-    # Remove rows with zero values in any column
-    data_pilatus = data_pilatus[~np.any(data_pilatus == 0, axis=1)]
+    # Remove rows with zero values in any column -- causes mismatch between frames without rebinning
+    #data_pilatus = data_pilatus[~np.any(data_pilatus == 0, axis=1)]
 
     # Optionally, handle rows with special characters (e.g., NaN or Inf)
-    data_pilatus = data_pilatus[~np.isnan(data_pilatus).any(axis=1)]  # Remove rows with NaN
-    data_pilatus = data_pilatus[~np.isinf(data_pilatus).any(axis=1)]  # Remove rows with Inf
+    #data_pilatus = data_pilatus[~np.isnan(data_pilatus).any(axis=1)]  # Remove rows with NaN
+    #data_pilatus = data_pilatus[~np.isinf(data_pilatus).any(axis=1)]  # Remove rows with Inf
     
     q_values_pilatus = data_pilatus[:, 0]
     intensity_pilatus = data_pilatus[:, 1]
