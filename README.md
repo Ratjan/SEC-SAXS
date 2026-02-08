@@ -1,4 +1,4 @@
-# SEC-SAXS
+# SEC-SAXS - local version, meant to be downloaded and run on computer
 Utilities for manipulating SEC-SAXS data
 
 Make sure these libraries are installed:
