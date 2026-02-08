@@ -9,6 +9,7 @@ Functions:
 - Separate plot module for comparison of saved data
 
 Intended first time run order is stitch -> main -> plots
+
 All files should be executable on default MAX IV / CoSAXS jupyterhub settings
 
 
