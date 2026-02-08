@@ -1,4 +1,5 @@
 # SEC-SAXS
+# Not yet fully updated for jupyterhub_version. The run-local branch is more up to date
 Utilities for manipulating SEC-SAXS data
 
 Make sure these libraries are installed:
